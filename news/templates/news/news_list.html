@@ -1,0 +1,66 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+<p>&nbsp;</p>
+<h3><span style="color: #ff0000;"><strong>ВСЕ НОВОСТИ</strong></span>
+<p>&nbsp;</p></h3>
+{% endblock title %}
+
+{% block content %}
+<table class="table" style="width: auto; margin: auto; text-align: center;">
+    <thead class="">
+    <tr>
+        <th>ЗАГОЛОВОК</th>
+        <th>ДАТА ПУБЛИКАЦИИ</th>
+        <th>ТЕКСТ ПОСТА</th>
+        <th>РЕЙТИНГ ПОСТА</th>
+        <th>АВТОР ПОСТА</th>
+        <th>РЕЙТИНГ АВТОРА</th>
+        <th>ТИП</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if news_list %}
+    {% for p in news_list %}
+    <tr>
+        <td><a href="{{ p.get_absolute_url }}"> {{ p.title|censor }} </a></td>
+        <td>{{ p.time_create|date:'d F Y' }}</td>
+        <td>{{ p.text|truncatechars:50|censor }}</td>
+        <td><b>{{ p.rating }}</b></td>
+        <td>{{ p.author.user_author}}</td>
+        <td> {{ p.author.rating_author }}</td>
+        <td> {{ p.category_type }}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+    <tbody>
+
+</table>
+
+ {# Добавляем пагинацию на страницу #}
+
+   {# Информация о предыдущих страницах #}
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+<p>&nbsp;</p></h3>
+
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+<p>&nbsp;</p>
+<h3><span style="color: #ff0000;"><strong>ПОИСК НОВОСТЕЙ(СТАТЕЙ):</strong></span>
+<p>&nbsp;</p></h3>
+{% endblock title %}
+
+{% block content %}
+<!-- Перед таблицей добавим форму для поиска -->
+<form class="pure-form" method="GET">
+  <fieldset>
+
+    {{ filter.form }}
+    <!-- Форму от фильтров за нас сделает django. А вот кнопку, увы придётся делать самому -->
+  </fieldset>
+
+  <button class="pure-button button-secondary">
+    Найти
+  </button>
+</form>
+<!--  loop -->
+<p>
+  {{filter.category_type}}
+</p>
+<p>
+  {{filter.qs.category_type }}
+</p>
+{% if filter == null %}
+<h3>
+  no posts
+</h3>
+{%else%}
+<h3 class="content-subhead">
+  Найдено новостей(статей):
+  <span>{{ filter.qs|length }}</span>
+</h3>
+{% for n in filter.qs %}
+<!--  A single blog post -->
+<section class="post">
+  <a href="./{{n.id}}">
+      <h1class="post-title">{{n.title|censor}}</h1>
+    </a>
+    <p class="post-meta">Автор:
+      <a class="post-author" href="#">
+        {{ n.author }}
+      </a>
+      <p>Дата публикации:
+      <i>{{ n.time_create|date:'d M Y H:i' }}</i></p>
+      <a class="post-category post-category-{{n.categoryType}}" href="#">
+        Категория: {{n.get_category_type_display }}
+      </a>
+    </p>
+  </header>
+  <div class="post-description">
+    <p>{{ n.text|censor | truncatewords:25 }}</p>
+    <p><em>Рейтинг: {{n.rating}} </em></p>
+  </div>
+</section>
+<hr />
+{%endfor%}
+{%endif%}
+
+{% endblock content %}

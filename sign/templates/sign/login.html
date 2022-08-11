@@ -1,0 +1,28 @@
+{% extends "news/default.html" %}
+
+{% block title %}
+<p>&nbsp;</p>
+<h3><span style="color: #ff0000;"><strong>ВОЙТИ В СИСТЕМУ</strong></span>
+<p>&nbsp;</p></h3>
+{% endblock title %}
+
+{% block content %}
+<h2> Войти в систему </h2>
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<table>
+<tr>
+    <td>{{ form.username.label_tag }}</td>
+    <td>{{ form.username }}</td>
+</tr>
+<tr>
+    <td>{{ form.password.label_tag }}</td>
+    <td>{{ form.password }}</td>
+</tr>
+</table>
+
+<input type="submit" value="Войти">
+</form>
+<button> <a href="/accounts/login"> Войти с помощью Google </a></button>
+<button> <a href="/sign/signup"> Регистрация </a></button>
+{% endblock %}

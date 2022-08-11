@@ -1,0 +1,17 @@
+{% extends "news/default.html" %}
+
+{% block title %}
+<p>&nbsp;</p>
+<h3><span style="color: #ff0000;"><strong>РЕГИСТРАЦИЯ ПОЛЬЗОВАТЕЛЯ</strong></span>
+<p>&nbsp;</p></h3>
+{% endblock title %}
+
+{% block content %}
+<button> <a href="/accounts/login"> Войти с помощью Google </a></button>
+<h2> Регистрация пользователя </h2>
+<form method="post">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Продолжить">
+</form>
+{% endblock %}

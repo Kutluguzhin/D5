@@ -1,0 +1,17 @@
+{% extends 'default.html' %}
+
+{% block title %}
+<h1><strong><span style="color: #ff0000;">Редактирование профиля</span><br /></strong></h1>
+{% endblock title %}
+
+{% block content %}
+{% if request.user.id != profile.id %}
+<h1>Редактирование профиля</h1>
+<hr>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Сохранить" />
+</form>
+{% endif %}
+{% endblock content %}

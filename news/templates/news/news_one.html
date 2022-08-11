@@ -1,0 +1,22 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+<p><h3>{{ news_one.title|censor }}</h3></p>
+<p>{{ news_one.text|censor }}</p>
+<p>Дата публикации: {{ news_one.time_create|date:"d.m.Y" }}</p>
+<p>Автор: {{ news_one.author }}</p>
+<p>Рейтинг: {{ news_one.rating }}</p>
+
+<button class="pure-button button-error">
+    <i class="bi bi-trash"></i>
+    <a href="{% url 'post_update' news_one.id %}"><u> Редактировать </u></a></button>
+
+<button class="pure-button button-error">
+    <i class="bi bi-trash"></i>
+    <a href="{% url 'post_delete' news_one.id %}"><u> Удалить </u></a></button>
+
+
+
+{% endblock content %}

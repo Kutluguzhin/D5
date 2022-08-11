@@ -1,0 +1,39 @@
+{% extends 'default.html' %}
+
+{% block title %}
+<h1><strong><span style="color: #ff0000;">Вы действительно хотите удалить данный пост?</span><br /></strong></h1>
+{% endblock title %}
+
+
+{% block content %}
+
+<section class="post">
+  <header class="post-header">
+      <h2 class="post-title">{{post.title}}</h2>
+    </a>
+    <p class="post-meta"><strong>Автор статьи:</strong> {{post.author}}
+      </a>
+      <p>
+      <strong>Дата создания новости(статьи):</strong>
+      <i>{{ post.time_create|date:'d M Y H:i' }}</i>
+    <p>
+      <p class="post-category post-category-{{post.category_type}}">
+        <strong>Категория поста:</strong> {{post.get_category_type_display }} </p>
+      </p>
+    </p>
+  </header>
+  <div class="post-description">
+    <p>{{ post.text|truncatewords:25 }}</p>
+    <p><em>Рейтинг новости(статьи): {{post.rating}} </em></p>
+  </div>
+</section>
+
+
+<form method="POST">
+  {% csrf_token %}
+  <button class="pure-button button-error">
+    <i class="bi bi-trash"></i>
+    Удалить</button>
+</form>
+{% endblock content %}
+

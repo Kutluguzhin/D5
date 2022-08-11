@@ -1,0 +1,31 @@
+{% extends "news/default.html" %}
+
+{% block title %}
+<p>&nbsp;</p>
+<h3><span style="color: #ff0000;"><strong>Страница авторизованного пользователя {{request.user.username}}</strong></span>
+<p>&nbsp;</p></h3>
+{% endblock title %}
+
+{% block content %}
+<h2>Страница авторизованного пользователя {{request.user.username}}</h2>
+<div> Здесь может содержаться персональная информация для каждого пользователя </div>
+
+{% if is_not_authors %}
+
+<p>
+  Если вы хотите стать автором, то нажмите кнопку:
+</p>
+<a href="sign/upgrade/">
+<button class="button-warning pure-button">
+  Стать автором!
+</button>
+</a>
+{% endif %}
+
+<a href="sign/logout/">
+<button class="button-primary pure-button">
+    Выйти
+  </button>
+</a>
+
+{% endblock %}

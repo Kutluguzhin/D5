@@ -1,0 +1,21 @@
+{% extends 'default.html' %}
+
+{% block title %}
+<p>&nbsp;</p>
+<h3><span style="color: #ff0000;"><strong>СОЗДАНИЕ НОВОСТИ(СТАТЬИ):</strong></span>
+<p>&nbsp;</p></h3>
+{% endblock title %}
+
+{% block content %}
+<h3>Новый пост (новость, статья)</h3>
+<form method="POST">
+  {% csrf_token %}
+  {{ form }}
+  <br>
+  <br>
+  <button class="pure-button button-success">
+    <i class="bi bi-check2-square"></i>
+    Создать новость(статью):</button>
+
+</form>
+{% endblock content %}

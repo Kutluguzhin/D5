@@ -1,0 +1,188 @@
+Windows PowerShell
+(C) Корпорация Майкрософт, 2012. Все права защищены.
+
+PS F:\ГТРК LAW\YandexDisk\PYTHON\Projects_KAI\SkillFactory\Module_D2_FPW73> venv/scripts/activate
+(venv) PS F:\ГТРК LAW\YandexDisk\PYTHON\Projects_KAI\SkillFactory\Module_D2_FPW73> cd NewsPaperKAI
+(venv) PS F:\ГТРК LAW\YandexDisk\PYTHON\Projects_KAI\SkillFactory\Module_D2_FPW73\NewsPaperKAI> python manage.py makemigrations
+Migrations for 'news':
+  news\migrations\0001_initial.py
+    - Create model Author
+    - Create model Category
+    - Create model Post
+    - Create model PostCategory
+    - Add field postCategory to post
+    - Create model Comment
+(venv) PS F:\ГТРК LAW\YandexDisk\PYTHON\Projects_KAI\SkillFactory\Module_D2_FPW73\NewsPaperKAI> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, news, sessions
+Running migrations:
+  Applying news.0001_initial... OK
+(venv) PS F:\ГТРК LAW\YandexDisk\PYTHON\Projects_KAI\SkillFactory\Module_D2_FPW73\NewsPaperKAI> python manage.py shell
+Python 3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from news.models import *
+>>> u1 = User.objects.create_user(username = 'Артур')
+>>> u1
+<User: Артур>
+>>> u2 = User.objects.create_user(username = 'Регина')
+>>> u1
+<User: Артур>
+>>> u2
+<User: Регина>
+>>> Author.objects.create(user_author = u1)
+<Author: Author object (1)>
+>>> Author.objects.create(user_author = u2)
+<Author: Author object (2)>
+>>> Category.objects.create(name = 'Политика')
+<Category: Category object (1)>
+>>> Category.objects.create(name = 'Экономика')
+<Category: Category object (2)>
+>>> Category.objects.create(name = 'Спорт')
+<Category: Category object (3)>
+>>> Category.objects.create(name = 'Происшествия')
+<Category: Category object (4)>
+>>> author = Author.objects.get(id = 1)
+>>> author
+<Author: Author object (1)>
+>>> Post.objects.create(author=author, category_type = 'NW', title = 'В Уфе загорелось здания Арбитражного суда Республики Башкортостан', text = 'Сегодня, 17 июля, загорелось здание арбитр
+ажного суда по улице Гоголя в Уфе. Эвакуированы три человека. По предварительным данным, горела кровля здания, общей площадью 20 квадратных метров. Причины возгорания пока неизвестны. Как
+сообщили в пресс-службе МЧС России по РБ, сейчас пожар ликвидирован, пострадавших нет.')
+<Post: Post object (1)>
+>>> Post.objects.get(id = 1)
+<Post: Post object (1)>
+>>> Post.objects.get(id = 1).title
+'В Уфе загорелось здания Арбитражного суда Республики Башкортостан'
+>>> Post.objects.get(id = 1).author
+<Author: Author object (1)>
+>>> Post.objects.get(id = 1).text
+'Сегодня, 17 июля, загорелось здание арбитражного суда по улице Гоголя в Уфе. Эвакуированы три человека. По предварительным данным, горела кровля здания, общей площадью 20 квадратных метро
+в. Причины возгорания пока неизвестны. Как сообщили в пресс-службе МЧС России по РБ, сейчас пожар ликвидирован, пострадавших нет.'
+>>> Post.objects.get(id = 1).title
+'В Уфе загорелось здания Арбитражного суда Республики Башкортостан'
+>>> Post.objects.get(id = 1).title
+'В Уфе загорелось здание Арбитражного суда Республики Башкортостан'
+>>> Post.objects.get(id = 1).postCategory.add(Category.objects.get(id=4))
+>>> Post.objects.create(author=author, category_type = 'AR', title = 'Глава Республики Башкортостан подписал договор с ПАО Башнефть', text = 'Сегодня, 17 июля, глава республики подписал вы
+годное для региона соглашение с предприятием на сумму более 500 млрд рублей. Это знаковое событие в жизни региона.')
+<Post: Post object (2)>
+>>> Post.objects.get(id = 2).postCategory.add(Category.objects.get(id=1))
+>>> Post.objects.get(id = 2).postCategory.add(Category.objects.get(id=2))
+>>> author = Author.objects.get(id = 2)
+>>> Post.objects.create(author=author, category_type = 'AR', title = 'ФК Уфа на выезде одержала победу над Рубином', text = 'В решающей борьбе за выживание футбольный клуб из столица Башко
+ртостана победил казанский Рубин со счетом 5:0. Какая боль для татарских болельщиков.')
+<Post: Post object (3)>
+>>> Post.objects.get(id = 3).postCategory.add(Category.objects.get(id=3))
+>>> Comment.objects.create(comment_post = Post.objects.get(id=1), comment_user = Author.objects.get(id=2).user_author, text = 'Хорошо горело, наверное. От дущи прямо!')
+<Comment: Comment object (1)>
+>>> Comment.objects.get(id=1)
+<Comment: Comment object (1)>
+>>> Comment.objects.get(id=1).text
+'Хорошо горело, наверное. От души прямо!'
+>>> Comment.objects.create(comment_post = Post.objects.get(id=1), comment_user = Author.objects.get(id=1).user_author, text = 'Хорошо, что быстро потушили.')
+<Comment: Comment object (2)>
+>>> Comment.objects.create(comment_post = Post.objects.get(id=2), comment_user = Author.objects.get(id=1).user_author, text = 'Лишь бы народу было полезно.')
+<Comment: Comment object (3)>
+>>> Comment.objects.create(comment_post = Post.objects.get(id=3), comment_user = Author.objects.get(id=2).user_author, text = 'С победой, уфимцы!')
+<Comment: Comment object (4)>
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=2).like()
+>>> Comment.objects.get(id=2).like()
+>>> Comment.objects.get(id=2).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=3).like()
+>>> Comment.objects.get(id=4).like()
+>>> Comment.objects.get(id=4).like()
+>>> Comment.objects.get(id=4).like()
+>>> Comment.objects.get(id=3).dislike()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=2).like()
+>>> Post.objects.get(id=2).like()
+>>> Post.objects.get(id=2).like()
+>>> Post.objects.get(id=2).like()
+>>> Post.objects.get(id=2).like()
+>>> Post.objects.get(id=2).like()
+>>> Post.objects.get(id=2).like()
+>>> Post.objects.get(id=2).like()
+>>> Post.objects.get(id=2).like()
+>>> Post.objects.get(id=3).like()
+>>> Post.objects.get(id=3).like()
+>>> Post.objects.get(id=1).dislike()
+>>> Post.objects.get(id=1).dislike()
+>>> Post.objects.get(id=1).dislike()
+>>> Post.objects.get(id=1).dislike()
+>>> Post.objects.get(id=1).dislike()
+>>> Post.objects.get(id=1).dislike()
+>>> Comment.objects.get(id=2).rating
+3
+>>> Author.objects.get(id=1).rating_author
+0
+>>> Author.objects.get(id=2).rating_author
+0
+>>> a = Author.objects.get(id=1)
+>>> a.update_rating()
+>>> a.rating_author
+114
+>>> b = Author.objects.get(id=2)
+>>> b.update_rating()
+>>> b.rating_author
+16
+>>> c = Author.objects.order_by('-rating_author')[:1]
+>>> c
+<QuerySet [<Author: Author object (1)>]>
+>>> for i in c:
+...     i.rating_author
+...     i.user_author.username
+...
+114
+'Артур'
+>>>
+>>> Post.objects.all()
+<QuerySet [<Post: Post object (1)>, <Post: Post object (2)>, <Post: Post object (3)>]>
+>>> Post.objects.order_by('time_create')
+<QuerySet [<Post: Post object (1)>, <Post: Post object (2)>, <Post: Post object (3)>]>
+>>> Post.objects.order_by('author')
+<QuerySet [<Post: Post object (1)>, <Post: Post object (2)>, <Post: Post object (3)>]>
+>>> Post.objects.order_by('rating')
+<QuerySet [<Post: Post object (3)>, <Post: Post object (2)>, <Post: Post object (1)>]>
+>>> Post.objects.order_by('title')
+<QuerySet [<Post: Post object (1)>, <Post: Post object (2)>, <Post: Post object (3)>]>
+>>> Post.objects.order_by('rating')[0]
+<Post: Post object (3)>
+
+
+
